@@ -1,66 +1,129 @@
-import React, { Component } from 'react';
-
+import React from 'react';
+import {ErrorMessage, SuccessMessage} from "./XUtils"
 
 
 class FormCreateIOU extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '1' };
+    this.state = {
+      error: null,
+      isLoaded: false,
+      isSubmited: null,
+      msg: '',
+      peers: [],
+      borrower: '',
+      viewer: '',
+      value: ''
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    var partialState = {};
+    const target = event.target;
+    const value = target.type === 'select' ? target.value : target.value;
+    const name = target.name;
+    //console.log('///////////////////: ' + name + '-' + value)
+    partialState[name] = value;
+    this.setState(partialState);
+
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+    this.setState({
+      isSubmited: true,
+      error: null,
+      msg: 'A new IOU was submitted: ' + this.state.borrower + '-' + this.state.viewer + '-' + this.state.value
+    })
     event.preventDefault();
   }
 
+
+  componentDidMount() {
+    fetch(process.env.REACT_APP_ENDPOINT_PEERS)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            peers: (typeof(result.peers) === "undefined" ? [] : result.peers)
+          });
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
   render() {
-    return (
-      <div class="card">
-        <div class="card-header"> Create IOU</div>
-        <div class="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div class="form-group">
-              <label for="borrowerFormControlSelect">Borrower</label>
-              <select class="form-control" id="borrowerFormControlSelect" >
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="viewerFormControlSelect">Viewer</label>
-              <select class="form-control" id="ViewerFormControlSelect">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="valueInput">Value</label>
-              <input type="email" class="form-control" id="valueInput" placeholder="Value" />
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+    let messageComponent = <div></div>;
+    const { error, isLoaded, isSubmited, msg, peers } = this.state;
+    if (error && isLoaded) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      
+      if(isSubmited){
+        if (!error) {
+          messageComponent = <SuccessMessage msg={msg} />;
+        } else {
+          messageComponent = <ErrorMessage msg={error.message} />
+        }
+      }
+      return (
+        <div className="card">
+          <div className="card-header"> Create IOU</div>
+          <div className="card-body">
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="borrowerFormControlSelect">Borrower</label>
+                <select name="borrower" type="select" className="form-control" id="borrowerFormControlSelect" value={this.state.borrower} onChange={this.handleChange} >
+                 <option defaultValue>Choose...</option>
+                  {peers.map(item => (
+                    <option key={item}> {item} </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="viewerFormControlSelect">Viewer</label>
+                <select name="viewer" type="select" className="form-control" id="viewerFormControlSelect" value={this.state.viewer} onChange={this.handleChange} >
+                  <option defaultValue>Choose...</option>
+                  {peers.map(item => (
+                    <option key={item}> {item} </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="valueInput">Value</label>
+                <input name="value" type="number" className="form-control" id="valueInput" placeholder="Value" value={this.state.value} onChange={this.handleChange} />
+              </div>
+              <div className="container">
+                <div className="row">
+                  <div className="col">
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                  </div>
+                  <div className="col-8">
+                    {messageComponent}
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-
-
-
-    );
+      );
+    }
   }
 }
+
 
 export default FormCreateIOU;
 

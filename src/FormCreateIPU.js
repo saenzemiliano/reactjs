@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
 
@@ -22,13 +22,13 @@ class FormCreateIPU extends React.Component {
 
   render() {
     return (
-      <div class="card">
-        <div class="card-header"> Create IPU</div>
-        <div class="card-body">
+      <div className="card">
+        <div className="card-header"> Create IPU</div>
+        <div className="card-body">
           <form onSubmit={this.handleSubmit}>
-            <div class="form-group">
-              <label for="borrowerFormControlSelect">Borrower</label>
-              <select class="form-control" id="borrowerFormControlSelect" >
+            <div className="form-group">
+              <label htmlFor="borrowerFormControlSelect">Borrower</label>
+              <select className="form-control" id="borrowerFormControlSelect" >
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -36,9 +36,9 @@ class FormCreateIPU extends React.Component {
                 <option>5</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="viewerFormControlSelect">Viewer</label>
-              <select class="form-control" id="ViewerFormControlSelect">
+            <div className="form-group">
+              <label htmlFor="viewerFormControlSelect">Viewer</label>
+              <select className="form-control" id="ViewerFormControlSelect">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -46,18 +46,25 @@ class FormCreateIPU extends React.Component {
                 <option>5</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="valueInput">Value</label>
-              <input type="email" class="form-control" id="valueInput" placeholder="Value" />
+            <div className="form-group">
+              <label htmlFor="valueInput">Value</label>
+              <input type="email" className="form-control" id="valueInput" placeholder="Value" />
             </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div className="container">
+              <div className="row">
+                <div className="col">
+                  <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
+                <div className="col-8">
+                  <div className="alert alert-danger">
+                    <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
-
-
-
     );
   }
 }
