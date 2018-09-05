@@ -2,17 +2,17 @@ import React from 'react';
 import {InfoMessage} from "./XUtils"
 
 
-class GenericListIOUs extends React.Component {
+class GenericListNodes extends React.Component {
 
   render() {
     let messageComponent = <div></div>;
-    const { error, isLoaded, items } = this.props;
+    const { error, isLoaded, nodes } = this.props;
     if (error && isLoaded) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      if(items.length <= 0) {
+      if(nodes.length <= 0) {
         messageComponent = <InfoMessage msg="Theare aren't element."></InfoMessage>
       }
 
@@ -21,21 +21,19 @@ class GenericListIOUs extends React.Component {
           <table className="table">
             <thead className="thead-dark">
               <tr>
-                <th scope="col">Linear Id</th>
-                <th scope="col">Viewer</th>
-                <th scope="col">Borrower</th>
-                <th scope="col">Lender</th>
-                <th scope="col">Value</th>
+                <th scope="col">Addresses</th>
+                <th scope="col">Legal Identity</th>
+                <th scope="col">Platform Version</th>
+                <th scope="col">Serial</th>
               </tr>
             </thead>
             <tbody>
-              {items.map(item => (
-                <tr key={item.linearId}>
-                  <td>{item.linearId}</td>
-                  <td>{item.viewer}</td>
-                  <td>{item.borrower}</td>
-                  <td>{item.lender}</td>
-                  <td>{item.value}</td>
+              {nodes.map(item => (
+                <tr key={item.legalIdentitiesAndCerts[0]}>
+                  <td>{item.addresses}</td>
+                  <td>{item.legalIdentitiesAndCerts[0]}</td>
+                  <td>{item.platformVersion}</td>
+                  <td>{item.serial}</td>
                 </tr>
               ))}
             </tbody>
@@ -49,7 +47,7 @@ class GenericListIOUs extends React.Component {
 }
 
 
-export default GenericListIOUs;
+export default GenericListNodes;
 
 
 

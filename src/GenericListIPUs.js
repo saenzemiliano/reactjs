@@ -2,7 +2,7 @@ import React from 'react';
 import {InfoMessage} from "./XUtils"
 
 
-class GenericListIOUs extends React.Component {
+class GenericListIPUs extends React.Component {
 
   render() {
     let messageComponent = <div></div>;
@@ -23,8 +23,8 @@ class GenericListIOUs extends React.Component {
               <tr>
                 <th scope="col">Linear Id</th>
                 <th scope="col">Viewer</th>
-                <th scope="col">Borrower</th>
-                <th scope="col">Lender</th>
+                <th scope="col">Payer</th>
+                <th scope="col">Loaner</th>
                 <th scope="col">Value</th>
               </tr>
             </thead>
@@ -33,8 +33,8 @@ class GenericListIOUs extends React.Component {
                 <tr key={item.linearId}>
                   <td>{item.linearId}</td>
                   <td>{item.viewer}</td>
-                  <td>{item.borrower}</td>
-                  <td>{item.lender}</td>
+                  <td>{item.payer}</td>
+                  <td>{item.loaner}</td>
                   <td>{item.value}</td>
                 </tr>
               ))}
@@ -49,7 +49,7 @@ class GenericListIOUs extends React.Component {
 }
 
 
-export default GenericListIOUs;
+export default GenericListIPUs;
 
 
 

@@ -4,6 +4,7 @@ import FormCreateIPU from "./FormCreateIPU"
 import FormCreateIOU from "./FormCreateIOU"
 import TableListIOUs from "./TableListIOUs"
 import TableListIPUs from "./TableListIPUs"
+import TableListNodes from "./TableListNodes"
 import './App.css';
 
 
@@ -64,9 +65,10 @@ class App extends React.Component {
                   <a href="/create-ipu" className="list-group-item list-group-item-action">create-ipu</a>
                   <a href="/list-ious" className="list-group-item list-group-item-action">list-ious</a>
                   <a href="/list-ipus" className="list-group-item list-group-item-action">list-ipus</a>
-                  <a href="/list-lender" className="list-group-item list-group-item-action">list-lender</a>
+                  {/*<a href="/list-lender" className="list-group-item list-group-item-action">list-lender</a>
                   <a href="/list-borrower" className="list-group-item list-group-item-action">list-borrower</a>
-                  <a href="/list-viewer" className="list-group-item list-group-item-action">list-viewer</a>
+                  <a href="/list-viewer" className="list-group-item list-group-item-action">list-viewer</a>*/}
+                  <a href="/list-corda-nodes" className="list-group-item list-group-item-action">list-corda-nodes</a>
                 </div>
                 <br />
               </div>
@@ -79,11 +81,12 @@ class App extends React.Component {
                         <div>
                           <Route exact path="/create-ipu" component={FormCreateIPU} />
                           <Route path="/create-iou" component={FormCreateIOU} />
-                          <Route path="/list-lender" component={Topics} />
+                          {/*<Route path="/list-lender" component={Topics} />
                           <Route path="/list-borrower" component={Topics} />
-                          <Route path="/list-viewer" component={Topics} />
+                          <Route path="/list-viewer" component={Topics} />*/}
                           <Route path="/list-ious" component={TableListIOUs} />
                           <Route path="/list-ipus" component={TableListIPUs} />
+                          <Route path="/list-corda-nodes" component={TableListNodes} />
                         </div>
                       </div>
                     </div>

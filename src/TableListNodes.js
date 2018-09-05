@@ -1,28 +1,28 @@
 import React from 'react';
-import GenericListIPUs from "./GenericListIPUs"
+import GenericListNodes from "./GenericListNodes"
 
 
 
-class TableListIPUs extends React.Component {
+class TableListNodes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
       error: null,
-      ipus: []
+      nodes: []
     };
   }
 
 
 
   componentDidMount() {
-    fetch(process.env.REACT_APP_ENDPOINT_IPUS)
+    fetch(process.env.REACT_APP_ENDPOINT_NODES)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            ipus: (typeof(result.ipus) === "undefined" ? [] : result.ipus)
+            nodes: (typeof(result.nodes) === "undefined" ? [] : result.nodes)
           });
         },
         // Note: it's important to handle errors here
@@ -39,14 +39,14 @@ class TableListIPUs extends React.Component {
 
 
   render() {
-    const { isLoaded, error, ipus } = this.state;
+    const { isLoaded, error, nodes } = this.state;
     return (
-      <GenericListIPUs error={error} isLoaded={isLoaded} items={ipus} />
+      <GenericListNodes error={error} isLoaded={isLoaded} nodes={nodes} />
     )
   }
 }
 
-export default TableListIPUs;
+export default TableListNodes;
 
 
 
