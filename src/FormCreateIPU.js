@@ -1,5 +1,5 @@
 import React from 'react';
-import {ErrorMessage, SuccessMessage} from "./XUtils"
+import { ErrorMessage, SuccessMessage, InfoMessage } from "./XUtils"
 
 
 class FormCreateIPU extends React.Component {
@@ -9,10 +9,13 @@ class FormCreateIPU extends React.Component {
       error: null,
       isLoaded: false,
       isSubmited: null,
+      isProcessing: false,
       msg: '',
       peers: [],
       counterparty: '',
-      viewer: ''
+      viewer: '',
+      from: '2018-09-04T08:00',
+      to: '2018-09-06T19:00',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,10 +35,46 @@ class FormCreateIPU extends React.Component {
 
   handleSubmit(event) {
     this.setState({
-      isSubmited: true,
-      error: null,
-      msg: 'A new IPU was submitted: ' + this.state.counterparty + '-' + this.state.viewer
-    })
+      isProcessing: true
+    });
+    const apiUrl = encodeURI(process.env.REACT_APP_ENDPOINT_COMPENSATE
+      + '?from=' + new Date(this.state.from).toISOString()
+   /*   + '&to=' + this.state.to
+      + '&viewerPartyName=' + this.state.viewer
+      + '&counterPartyName=' + this.state.counterparty*/);
+
+    console.log("/////////////////" + apiUrl)
+    fetch(apiUrl,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.text())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            isSubmited: true,
+            isProcessing: false,
+            error: null,
+            msg: result
+          })
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          //console.log("//////////2222///" + error + "////" + error.message);
+          this.setState({
+            isLoaded: true,
+            isSubmited: true,
+            isProcessing: false,
+            error
+          });
+        }
+      )
     event.preventDefault();
   }
 
@@ -47,7 +86,7 @@ class FormCreateIPU extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            peers: (typeof(result.peers) === "undefined" ? [] : result.peers)
+            peers: (typeof (result.peers) === "undefined" ? [] : result.peers)
           });
         },
         // Note: it's important to handle errors here
@@ -64,26 +103,31 @@ class FormCreateIPU extends React.Component {
 
   render() {
     let messageComponent = <div></div>;
-    const { error, isLoaded, isSubmited, msg, peers } = this.state;
-    if (error && isLoaded) {
+    const { error, isLoaded, isSubmited, isProcessing, msg, peers } = this.state;
+    if (error && isLoaded && !isSubmited) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      
-      if(isSubmited){
+
+      if (isSubmited) {
         if (!error) {
           messageComponent = <SuccessMessage msg={msg} />;
         } else {
           messageComponent = <ErrorMessage msg={error.message} />
         }
       }
+      if (isProcessing) {
+        messageComponent = <InfoMessage msg={"Processing..."} />
+      }
+
       return (
+
         <div className="card">
           <div className="card-header"> Create IPU</div>
           <div className="card-body">
             <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
+              <div className="form-group">
                 <label htmlFor="viewerFormControlSelect">Viewer</label>
                 <select name="viewer" type="select" className="form-control" id="viewerFormControlSelect" value={this.state.viewer} onChange={this.handleChange} >
                   <option defaultValue>Choose...</option>
@@ -95,11 +139,19 @@ class FormCreateIPU extends React.Component {
               <div className="form-group">
                 <label htmlFor="counterpartyFormControlSelect">Counterparty</label>
                 <select name="counterparty" type="select" className="form-control" id="counterpartyFormControlSelect" value={this.state.counterparty} onChange={this.handleChange} >
-                 <option defaultValue>Choose...</option>
+                  <option defaultValue>Choose...</option>
                   {peers.map(item => (
                     <option key={item}> {item} </option>
                   ))}
                 </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="valueInput">From</label>
+                <input name="from" type="datetime-local" className="form-control" id="fromInput" value={this.state.from} onChange={this.handleChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="valueInput">To</label>
+                <input name="to" type="datetime-local" className="form-control" id="toInput" value={this.state.to} onChange={this.handleChange} />
               </div>
               <div className="container">
                 <div className="row">

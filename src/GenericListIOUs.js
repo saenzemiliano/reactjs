@@ -2,6 +2,11 @@ import React from 'react';
 import {InfoMessage} from "./XUtils"
 
 
+
+function formatDate(longdate) {
+  return new Date(longdate).toLocaleString();
+}
+
 class GenericListIOUs extends React.Component {
 
   render() {
@@ -22,6 +27,7 @@ class GenericListIOUs extends React.Component {
             <thead className="thead-dark">
               <tr>
                 <th scope="col">Linear Id</th>
+                <th scope="col">Date</th>
                 <th scope="col">Viewer</th>
                 <th scope="col">Borrower</th>
                 <th scope="col">Lender</th>
@@ -30,12 +36,13 @@ class GenericListIOUs extends React.Component {
             </thead>
             <tbody>
               {items.map(item => (
-                <tr key={item.linearId}>
-                  <td>{item.linearId}</td>
-                  <td>{item.viewer}</td>
-                  <td>{item.borrower}</td>
-                  <td>{item.lender}</td>
-                  <td>{item.value}</td>
+                <tr key={item.state.data.linearId.id}>
+                  <td>{item.state.data.linearId.id}</td>
+                  <td>{formatDate(item.state.data.date)}</td>
+                  <td>{item.state.data.viewer}</td>
+                  <td>{item.state.data.borrower}</td>
+                  <td>{item.state.data.lender}</td>
+                  <td>{item.state.data.value}</td>
                 </tr>
               ))}
             </tbody>
@@ -46,6 +53,9 @@ class GenericListIOUs extends React.Component {
     }
 
   }
+
+  
+
 }
 
 

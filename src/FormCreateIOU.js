@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorMessage, SuccessMessage } from "./XUtils"
+import { ErrorMessage, SuccessMessage, InfoMessage } from "./XUtils"
 
 
 class FormCreateIOU extends React.Component {
@@ -9,6 +9,7 @@ class FormCreateIOU extends React.Component {
       error: null,
       isLoaded: false,
       isSubmited: null,
+      isProcessing: false,
       msg: '',
       peers: [],
       borrower: '',
@@ -32,12 +33,15 @@ class FormCreateIOU extends React.Component {
   }
 
   handleSubmit(event) {
+    this.setState({
+      isProcessing: true
+    });
     const apiUrl = encodeURI(process.env.REACT_APP_ENDPOINT_CERATE_IOU
       + '?iouValue=' + this.state.value
-      + '&viewerPartyName=' + this.state.viewer 
-      + '&otherPartyName=' + this.state.borrower );
+      + '&viewerPartyName=' + this.state.viewer
+      + '&otherPartyName=' + this.state.borrower);
 
-    console.log("/////////////////" + apiUrl)
+    //console.log("/////////////////" + apiUrl)
     fetch(apiUrl,
       {
         method: 'PUT',
@@ -45,23 +49,26 @@ class FormCreateIOU extends React.Component {
           'Content-Type': 'application/json'
         }
       })
-      .then(res => res.json())
+      .then(res => res.text())
       .then(
-        () => {
+        (result) => {
           this.setState({
+            isLoaded: true,
             isSubmited: true,
+            isProcessing: false,
             error: null,
-            msg: 'A new IOU was submitted: ' + this.state.borrower + '-' + this.state.viewer + '-' + this.state.value
+            msg: result
           })
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (error) => {
-          console.log("//////////2222///"+ error +"////" + error.message);
+          //console.log("//////////2222///" + error + "////" + error.message);
           this.setState({
             isLoaded: true,
             isSubmited: true,
+            isProcessing: false,
             error
           });
         }
@@ -94,7 +101,7 @@ class FormCreateIOU extends React.Component {
 
   render() {
     let messageComponent = <div></div>;
-    const { error, isLoaded, isSubmited, msg, peers } = this.state;
+    const { error, isLoaded, isSubmited, isProcessing, msg, peers } = this.state;
     if (error && isLoaded && !isSubmited) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -108,7 +115,12 @@ class FormCreateIOU extends React.Component {
           messageComponent = <ErrorMessage msg={error.message} />
         }
       }
+      if (isProcessing) {
+        messageComponent = <InfoMessage msg={"Processing..."} />
+      }
+
       return (
+
         <div className="card">
           <div className="card-header"> Create IOU</div>
           <div className="card-body">

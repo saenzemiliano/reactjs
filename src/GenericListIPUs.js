@@ -30,12 +30,12 @@ class GenericListIPUs extends React.Component {
             </thead>
             <tbody>
               {items.map(item => (
-                <tr key={item.linearId}>
-                  <td>{item.linearId}</td>
-                  <td>{item.viewer}</td>
-                  <td>{item.payer}</td>
-                  <td>{item.loaner}</td>
-                  <td>{item.value}</td>
+                <tr key={item.state.data.linearId.id}>
+                  <td>{item.state.data.linearId.id}</td>
+                  <td>{item.state.data.viewer}</td>
+                  <td>{item.state.data.payer}</td>
+                  <td>{item.state.data.loaner}</td>
+                  <td>{item.state.data.value}</td>
                 </tr>
               ))}
             </tbody>

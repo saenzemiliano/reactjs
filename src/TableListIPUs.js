@@ -22,7 +22,7 @@ class TableListIPUs extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            ipus: (typeof(result.ipus) === "undefined" ? [] : result.ipus)
+            ipus: (typeof(result) === "undefined" ? [] : result)
           });
         },
         // Note: it's important to handle errors here

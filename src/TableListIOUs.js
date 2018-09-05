@@ -22,7 +22,7 @@ class TableListIOUs extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            ious: (typeof(result.ious) === "undefined" ? [] : result.ious)
+            ious: (typeof(result) === "undefined" ? [] : result)
           });
         },
         // Note: it's important to handle errors here

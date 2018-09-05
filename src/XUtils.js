@@ -49,7 +49,27 @@ class ErrorMessage extends React.Component {
   }
 }
 
+
+class LargeModal extends React.Component {
+
+
+  render() {
+    return (
+        <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="false">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              {this.props.msg}
+            </div>
+          </div>
+        </div>
+    );
+  }
+}
+
+
+
 export {
+  LargeModal,
   ErrorMessage,
   WarningMessage,
   SuccessMessage,
