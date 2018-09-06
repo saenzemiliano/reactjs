@@ -29,7 +29,7 @@ class App extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            me: (typeof(result.me) === "undefined" ? [] : result.me)
+            me: (typeof (result.me) === "undefined" ? [] : result.me)
           });
         },
         // Note: it's important to handle errors here
@@ -61,14 +61,14 @@ class App extends React.Component {
               <div className="col-sm-3 sidenav">
                 <br />
                 <div className="list-group">
-                  <a href="/create-iou" className="list-group-item list-group-item-action">create-iou</a>
-                  <a href="/create-ipu" className="list-group-item list-group-item-action">create-ipu</a>
-                  <a href="/list-ious" className="list-group-item list-group-item-action">list-ious</a>
-                  <a href="/list-ipus" className="list-group-item list-group-item-action">list-ipus</a>
-                  {/*<a href="/list-lender" className="list-group-item list-group-item-action">list-lender</a>
-                  <a href="/list-borrower" className="list-group-item list-group-item-action">list-borrower</a>
-                  <a href="/list-viewer" className="list-group-item list-group-item-action">list-viewer</a>*/}
-                  <a href="/list-corda-nodes" className="list-group-item list-group-item-action">list-corda-nodes</a>
+                  <a href={process.env.PUBLIC_URL + '/create-iou'} className="list-group-item list-group-item-action">create-iou</a>
+                  <a href={process.env.PUBLIC_URL + '/create-ipu'} className="list-group-item list-group-item-action">create-ipu</a>
+                  <a href={process.env.PUBLIC_URL + '/list-ious'} className="list-group-item list-group-item-action">list-ious</a>
+                  <a href={process.env.PUBLIC_URL + '/list-ipus'} className="list-group-item list-group-item-action">list-ipus</a>
+                  {/*<a href={process.env.PUBLIC_URL +'/list-lender'} className="list-group-item list-group-item-action">list-lender</a>
+                  <a href={process.env.PUBLIC_URL +'/list-borrower'} className="list-group-item list-group-item-action">list-borrower</a>
+                  <a href={process.env.PUBLIC_URL +'/list-viewer'} className="list-group-item list-group-item-action">list-viewer</a>*/}
+                  <a href={process.env.PUBLIC_URL + '/list-corda-nodes'} className="list-group-item list-group-item-action">list-corda-nodes</a>
                 </div>
                 <br />
               </div>
@@ -79,14 +79,14 @@ class App extends React.Component {
                       <div className="panel-body">
                         <br></br>
                         <div>
-                          <Route exact path="/create-ipu" component={FormCreateIPU} />
-                          <Route path="/create-iou" component={FormCreateIOU} />
-                          {/*<Route path="/list-lender" component={Topics} />
-                          <Route path="/list-borrower" component={Topics} />
-                          <Route path="/list-viewer" component={Topics} />*/}
-                          <Route path="/list-ious" component={TableListIOUs} />
-                          <Route path="/list-ipus" component={TableListIPUs} />
-                          <Route path="/list-corda-nodes" component={TableListNodes} />
+                          <Route exact path={process.env.PUBLIC_URL + '/create-ipu'} component={FormCreateIPU} />
+                          <Route path={process.env.PUBLIC_URL + '/create-iou'} component={FormCreateIOU} />
+                          {/*<Route path={process.env.PUBLIC_URL + '/list-lende'} component={Topics} />
+                          <Route path={process.env.PUBLIC_URL + '/list-borrower'} component={Topics} />
+                          <Route path={process.env.PUBLIC_URL + '/list-viewer'} component={Topics} />*/}
+                          <Route path={process.env.PUBLIC_URL + '/list-ious'} component={TableListIOUs} />
+                          <Route path={process.env.PUBLIC_URL + '/list-ipus'} component={TableListIPUs} />
+                          <Route path={process.env.PUBLIC_URL + '/list-corda-nodes'} component={TableListNodes} />
                         </div>
                       </div>
                     </div>

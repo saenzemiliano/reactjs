@@ -2,6 +2,7 @@
   "name": "r3corda-web-app",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "/web/example",
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
