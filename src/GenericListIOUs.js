@@ -1,11 +1,8 @@
 import React from 'react';
-import {InfoMessage} from "./XUtils"
+import {InfoMessage, ToStringDateFromLong} from "./XUtils"
 
 
 
-function formatDate(longdate) {
-  return new Date(longdate).toLocaleString();
-}
 
 class GenericListIOUs extends React.Component {
 
@@ -38,7 +35,7 @@ class GenericListIOUs extends React.Component {
               {items.map(item => (
                 <tr key={item.state.data.linearId.id}>
                   <td>{item.state.data.linearId.id}</td>
-                  <td>{formatDate(item.state.data.date)}</td>
+                  <td>{ToStringDateFromLong(item.state.data.date)}</td>
                   <td>{item.state.data.viewer}</td>
                   <td>{item.state.data.borrower}</td>
                   <td>{item.state.data.lender}</td>

@@ -1,10 +1,11 @@
 import React from 'react';
-import { ErrorMessage, SuccessMessage, InfoMessage } from "./XUtils"
+import { ErrorMessage, SuccessMessage, InfoMessage, ToStringDateYYYYMMDD,ToLongDateFromStringDate,ToStringDateFromLong } from "./XUtils"
 
 
 class FormCreateIPU extends React.Component {
   constructor(props) {
     super(props);
+    var d = new Date();
     this.state = {
       error: null,
       isLoaded: false,
@@ -14,8 +15,8 @@ class FormCreateIPU extends React.Component {
       peers: [],
       counterparty: '',
       viewer: '',
-      from: '2018-09-04T08:00',
-      to: '2018-09-06T19:00',
+      from: ToStringDateYYYYMMDD(d) +'T08:00',
+      to: ToStringDateYYYYMMDD(d) +'T19:00',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,12 +39,13 @@ class FormCreateIPU extends React.Component {
       isProcessing: true
     });
     const apiUrl = encodeURI(process.env.REACT_APP_ENDPOINT_COMPENSATE
-      + '?from=' + new Date(this.state.from).toISOString()
-   /*   + '&to=' + this.state.to
+      + '?from=' + ToLongDateFromStringDate(this.state.from)
+      + '&to=' + ToLongDateFromStringDate(this.state.to)
       + '&viewerPartyName=' + this.state.viewer
-      + '&counterPartyName=' + this.state.counterparty*/);
-
-    console.log("/////////////////" + apiUrl)
+      + '&counterPartyName=' + this.state.counterparty);
+    
+    //console.log("/////////////////" + ToStringDateFromLong(ToLongDateFromStringDate(this.state.from)))
+    //console.log("/////////////////" + apiUrl)
     fetch(apiUrl,
       {
         method: 'PUT',
